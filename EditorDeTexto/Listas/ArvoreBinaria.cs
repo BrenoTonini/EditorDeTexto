@@ -19,11 +19,13 @@ namespace EditorDeTexto.Listas
             Raiz = new NoArvore(valor);
         }
 
+        //adiciona nó
         public void Add(int valor)
         {
             Add(Raiz, valor);
         }
 
+        //recursão pra adicionar
         private void Add(NoArvore no, int valor)
         {
             if (Raiz == null)
@@ -58,6 +60,7 @@ namespace EditorDeTexto.Listas
             }
         }
 
+        //busca se o valor existe na árvore
         public bool Search(int valor)
         {
             if (Raiz != null)
@@ -67,6 +70,7 @@ namespace EditorDeTexto.Listas
             return false;
         }
 
+        //recursão pra busca
         private bool Search(NoArvore no, int valor)
         {
             if (no.GetValue() == valor)

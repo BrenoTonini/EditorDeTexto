@@ -27,14 +27,7 @@ namespace EditorDeTexto.Listas
         public int GetQuantidadeElementos() { return QuantidadeElementos; }
         public int GetTamanhoTabela() { return TamanhoTabela; }
 
-        public void Release()
-        {
-            for (int i = 0; i < TamanhoTabela; i++)
-            {
-                Palavras[i] = new ArvoreBinaria(); // Reset each tree
-            }
-        }
-
+        //gera o valor chave do elemento
         private int ValorString(string str)
         {
             int valor = 7;
@@ -42,14 +35,19 @@ namespace EditorDeTexto.Listas
             {
                 valor = 31 * valor + c;
             }
+            //operação "and" com "0x7FFFFFFF" remove o bit de sinal da chave
+            //evita overflow
             return valor & 0x7FFFFFFF;
         }
 
+        //encontra a posição de busca e inserção do elemento
+        //retorna o index
         private int HashDivisao(int chave)
         {
             return (chave & 0x7FFFFFFF) % TamanhoTabela;
         }
 
+        //insere elemento
         public bool Inserir(string palavra)
         {
             int chave = ValorString(palavra);
@@ -65,6 +63,7 @@ namespace EditorDeTexto.Listas
             return false;
         }
 
+        //busca se o elemento existe na tabela
         public bool Buscar(string palavra)
         {
             int chave = ValorString(palavra);

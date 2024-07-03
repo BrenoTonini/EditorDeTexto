@@ -9,7 +9,7 @@ namespace EditorDeTexto.Entidades
 {
     internal class Dicionario
     {
-        private int TamanhoDicionario = 300007;   //numero primo proximo de 300000
+        private int TamanhoDicionario = 50021;   //numero primo proximo de 50.000
         private TabelaHash Palavras;
         private const string NomeArquivo = "DicionarioDePalavras.txt";
         private string PathArquivo;
@@ -17,7 +17,11 @@ namespace EditorDeTexto.Entidades
         public Dicionario()
         {
             Palavras = new TabelaHash(TamanhoDicionario);
-            PathArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NomeArquivo); //o arquivo deve estar no diretorio `...\bin\Debug\net8.0-windows`
+
+            //o arquivo deve estar no diretorio `...\bin\Debug\net8.0-windows`
+            //se não existir o programa irá criar ao executar.
+            //o dicionario não terá palavras, basta incluir um arquivo com palavras no programa que ele ficará salvo.
+            PathArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NomeArquivo); 
             CarregarDicionario();
         }
 
@@ -59,6 +63,7 @@ namespace EditorDeTexto.Entidades
             }
         }
 
+        //mescla as palavras de outro dicionario nele próprio.
         public void MesclarPalavras(string pathDicionario)
         {
             if (File.Exists(pathDicionario))
@@ -85,14 +90,15 @@ namespace EditorDeTexto.Entidades
             }
         }
 
+        //busca a palavra em minúsculo e também do jeito que foi escrita.
+        //no arquivo fornecido existem algumas palavras inseridas com primeira letra maiúscula.
+        //exemplo: nomes de pessoas e países
         public bool EncontrarPalavra(string palavra)
         {
-            //busca a palavra em minúsculo e também do jeito que foi escrita.
-            //no arquivo fornecido existem algumas palavras inseridas com primeira letra maiúscula.
-            //exemplo: nomes de pessoas e países
             return Palavras.Buscar(palavra.ToLower()) || Palavras.Buscar(palavra);
         }
 
+        //adiciona uma palavra no dicionario
         public void AddNovaPalavra(string palavra)
         {
             if (EncontrarPalavra(palavra) == false)

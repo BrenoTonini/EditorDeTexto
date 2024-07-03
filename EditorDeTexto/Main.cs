@@ -54,11 +54,13 @@ namespace EditorDeTexto
 
             foreach (string palavra in palavras)
             {
+                //identifica palavras com acentuação e ignora simbolos e números.
                 if (Regex.IsMatch(palavra, @"^[a-zA-ZÀ-ÖØ-öø-ÿÇç]+$") && !Dicionario.EncontrarPalavra(palavra))
                 {
                     string pattern = $@"\b{Regex.Escape(palavra)}\b";
                     MatchCollection matches = Regex.Matches(richTextBox1.Text, pattern);
 
+                    //troca a fonte das palavras erradas para vermelho e sublinha
                     foreach (Match match in matches)
                     {
                         richTextBox1.Select(match.Index, match.Length);
@@ -81,6 +83,7 @@ namespace EditorDeTexto
             AbrirArquivo();
         }
 
+        //abre um arquivo ja existente
         private void AbrirArquivo()
         {
             if (ArquivoFoiAlterado)
@@ -114,6 +117,7 @@ namespace EditorDeTexto
             SalvarArquivo();
         }
 
+        //salva o arquivo atual
         private void SalvarArquivo()
         {
             if (!string.IsNullOrEmpty(CaminhoArquivoAtual))
@@ -142,6 +146,7 @@ namespace EditorDeTexto
             SalvarArquivoComo();
         }
 
+        //salva o arquivo atual em outro arquivo
         private void SalvarArquivoComo()
         {
             if (!string.IsNullOrEmpty(richTextBox1.Text))
@@ -166,6 +171,7 @@ namespace EditorDeTexto
             }
         }
 
+        //cria um arquivo zerado
         private void novoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ArquivoFoiAlterado)
@@ -200,6 +206,7 @@ namespace EditorDeTexto
             IncluirDicionario();
         }
 
+        //inclui um arquivo de palavras
         private void IncluirDicionario()
         {
             OpenFileDialog dialogoIncluirDicionario = new OpenFileDialog();
@@ -236,13 +243,11 @@ namespace EditorDeTexto
                 AddNovaPalavra();
             }
         }
+
+        //inclui somente uma palavra
         private void AddNovaPalavra()
         {
             string palavra = toolStripTextBox2.Text;
-            
-
-            //expressao regular pra saber se é uma palavra com somente letras em minúsculo
-            //o textbox só está aceitando minúsculo
             if (!string.IsNullOrEmpty(palavra) && !palavra.Contains(' '))
             {
                 Dicionario.AddNovaPalavra(palavra);
